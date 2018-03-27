@@ -56,3 +56,4 @@ class BET{
     size_t size(BinaryNode *t); //return num of nodes in subtree pointed to by t
     size_t leaf_nodes(BinaryNode *t); //return num of leaf nodes in subtree pointed to by t
 };
+#endif
