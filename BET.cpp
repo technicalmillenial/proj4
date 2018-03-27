@@ -3,10 +3,8 @@
 #include <stream>
 
 using namespace std;
-template <typename T>
-<T> BET::BET(){}
+BET::BET():root{nullptr}{}
 
-template <typmename T>
-<T> BET::BET(const string postfix){
+ BET::BET(const string postfix){
   
 }
