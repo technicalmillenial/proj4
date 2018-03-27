@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 
+template <typename T>
 struct BinaryNode{
   std::string token;
   BinaryNode *left;
@@ -16,7 +17,7 @@ struct BinaryNode{
     : token{move(theToken)}, left{lt}, right{rt} {}
 };
 
-
+template <typename T>
 class BET{
   public:
     BET();  //default zero-parameter constructor
@@ -56,4 +57,5 @@ class BET{
     size_t size(BinaryNode *t); //return num of nodes in subtree pointed to by t
     size_t leaf_nodes(BinaryNode *t); //return num of leaf nodes in subtree pointed to by t
 };
+BinaryNode *root;
 #endif
