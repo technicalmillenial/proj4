@@ -4,30 +4,28 @@
 #include <iostream>
 #include <string>
 
-template <typename T>
 struct BinaryNode{
   std::string token;
   BinaryNode *left;
   BinaryNode *right;
   
-  BinaryNode(const string& theToken = string{}, BinaryNode *lt = nullptr, BinaryNode* rt = nullptr)
+  BinaryNode(const std::string& theToken = std::string{}, BinaryNode *lt = nullptr, BinaryNode* rt = nullptr)
     : token{theToken}, left{lt}, right{rt} {}
   
-  BinaryNode(string && theToken, BinaryNode *lt = nullptr, BinaryNode *rt = nullptr)
+  BinaryNode(std::string && theToken, BinaryNode *lt = nullptr, BinaryNode *rt = nullptr)
     : token{move(theToken)}, left{lt}, right{rt} {}
 };
 
-template <typename T>
 class BET{
   public:
     BET();  //default zero-parameter constructor
-    BET(const string postfix); 
+    BET(const std::string postfix); 
     //"postfix" is string containing a postfix expression
     //tree is built based off of postfix
     BET(const BET&);  //copy constructor
     ~BET(); //destructor
     
-    bool buildFromPostfix(const string postfix);  
+    bool buildFromPostfix(const std::string postfix);  
     //if tree contains nodes before the function is called, then delete existing nodes first
     //return true if the new tree is successful
     //false if error
