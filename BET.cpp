@@ -1,4 +1,4 @@
-#include "BET.h"
+#include "bet.h"
 #include <iostream>
 #include <stack>
 
@@ -61,6 +61,7 @@ const BET::BET& operator=(const BET &b)
   root = clone(b.root);
   return *this;
 }  //assignment operator
+
 size_t BET::size()
 {      return size(root);    }  //call private size func to return the number of nodes in the tree
     
@@ -79,6 +80,7 @@ void BET::printPostfixExpression()
 {   printPostfixExpression(root);
     cout<<endl;
 }  //call private version to print postfix expression
+
 void BET::printInfixExpression(BinaryNode *n)
 { if(n->left == nullptr )
     {cout<<n->token;}
@@ -97,25 +99,25 @@ void BET::printInfixExpression(BinaryNode *n)
     //may need to add parens depending on precedence of operators
     //NO UNNECESSARY PARENS
     
-    void BET::makeEmpty(BinaryNode* &t)
-    {if(t != nullptr)
-      {makeEmpty(t->left);
-       makeEmpty(t->right);
-        delete t;
-      }
+void BET::makeEmpty(BinaryNode* &t)
+{     if(t != nullptr)
+        {   makeEmpty(t->left);
+          makeEmpty(t->right);
+          delete t;
+        }
       t=nullptr;
     } //delete all nodes in subtree pointed to by t
     //called by destructor
     
-    BinaryNode * BET::clone(BinaryNode *t)const
-    {if(t==nullptr)
-      {return nullptr;}
-     else
-      return new BinaryNode{t->element, clone(t->left), clone(t->right)};
+BinaryNode* BET::clone(BinaryNode *t)const
+    {   if(t==nullptr)
+          {return nullptr;}
+         else
+        return new BinaryNode{t->element, clone(t->left), clone(t->right)};
     }  //clone all nodes in subtree pointed to by t
     //called by assignment operator=
     
-    void BET::printPostfixExpression(BinaryNode *n)
+void BET::printPostfixExpression(BinaryNode *n)
     {   if(n!=nullptr)
         {          printPostfixExpression(n->left);
                    printPostfixExpression(n->right);
@@ -123,10 +125,12 @@ void BET::printInfixExpression(BinaryNode *n)
         }
      
     } //print to the std output, corresponding postfix expression
-    size_t size(BinaryNode *t)
+size_t size(BinaryNode *t)
     { if(t==nullptr){return 0;}
       else{return 1 + size(t->left) + size(t->right);}
     } //return num of nodes in subtree pointed to by t
-    size_t leaf_nodes(BinaryNode *t)
-    {if((t != nullptr)&&((t->left == nullptr)&&(t->right == nullptr))){return 1;}
-      else return leaf_nodes(t->left + leaf_nodes(t->right));}
+size_t leaf_nodes(BinaryNode *t)
+    {   if( (t != nullptr) && ((t->left == nullptr) && (t->right == nullptr)) )
+          {return 1;}
+        else return leaf_nodes(t->left + leaf_nodes(t->right));
+    }
