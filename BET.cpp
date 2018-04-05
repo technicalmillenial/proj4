@@ -24,37 +24,43 @@ BET::~BET()
 bool BET::buildFromPostfix(const string postfix)
 {
  stack<BinaryNode*> theStack;
+  root = nullptr;
+  string token2;
   
- if(!theStack.empty()){
-  makeEmpty(root);
- }
-  else
-  {
     for(size_t i=0; i<postfix.length(); i++)
     { //if isoperand then create a one-node tree and push a pointer to it onto a stack
-      if(((postfix[i] != '+')||(postfix[i] != '-')||(postfix[i] != '*')||(postfix[i] != '/'))&&(!theStack.empty()))
+      if((postfix[i] != '+')&&(postfix[i] != '-')&&(postfix[i] != '*')&&(postfix[i] != '/')&&(!isspace(postfix[i])))
       {
-        theStack.push(postfix[i]);
+        token2.clear();
+        while(!isspace( postfix[i] ) && (postfix[i] != '+')&&(postfix[i] != '-')&&(postfix[i] != '*')&&(postfix[i] != '/') && ( i < postfix.length() ))
+        {   token2 = token2 + postfix[i];   
+              i++;
+        }
+        i--;
+        BinaryNode* ptr2 = new BinaryNode{token2, nullptr, nullptr};
+        theStack.push(ptr2);
       }
       //if isoperator then pop pointers to the left and right nodes from the stack and then a pointer is then pushed onto the stack
-      else if(((postfix[i] == '+')||(postfix[i] == '-')||(postfix[i] == '*')||(postfix[i] == '/'))&&(!theStack.empty()))
+      else if(((postfix[i] == '+')||(postfix[i] == '-')||(postfix[i] == '*')||(postfix[i] == '/'))&&(theStack.size() >= 2))
       {
+        token2.clear();
+        token2 = token2 + postfix[i];
+        
         BinaryNode* Rnode = theStack.top();
         theStack.pop();
         BinaryNode* Lnode = theStack.top();
         theStack.pop();
-        BinaryNode* ptr = new BinaryNode(postfix[i], Lnode, Rnode);
+        
+        BinaryNode* ptr = new BinaryNode(token2, Lnode, Rnode);
         theStack.push(ptr);
       }
+      else if(theStack.size<2)
+      { break;}
     }
-    else if(theStack.empty()){
-      cout<<"Error. New tree unsuccessful.\n";
-      return false;
-    }
-    else
-      cout<<"Success! New tree built!\n";
-      return true;
-  }
+   
+    swap(root, theStack.top());
+    return true;
+  
 }
 const BET& BET::operator=(const BET &b)
 {
@@ -125,11 +131,11 @@ void BET::printPostfixExpression(BinaryNode *n)
         }
      
     } //print to the std output, corresponding postfix expression
-size_t size(BinaryNode *t)
+size_t BET::size(BinaryNode *t)
     { if(t==nullptr){return 0;}
       else{return 1 + size(t->left) + size(t->right);}
     } //return num of nodes in subtree pointed to by t
-size_t leaf_nodes(BinaryNode *t)
+size_t BET::leaf_nodes(BinaryNode *t)
     {   if( (t != nullptr) && ((t->left == nullptr) && (t->right == nullptr)) )
           {return 1;}
         else return leaf_nodes(t->left + leaf_nodes(t->right));
